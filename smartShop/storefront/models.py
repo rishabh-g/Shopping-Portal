@@ -12,7 +12,7 @@ class Store(models.Model):
         store_hours = models.CharField(max_length=255)   
         
 class StoreAdmin(models.Model):
-        admin_id=models.CharField(_('password'),max_length=255)
+        admin_id=models.CharField(max_length=255)
         admin_email = models.CharField(max_length=255)
         admin_password = models.CharField(max_length=255)
         admin_storeid = models.ForeignKey(Store)
