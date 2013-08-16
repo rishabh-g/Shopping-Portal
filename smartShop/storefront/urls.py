@@ -1,13 +1,9 @@
 from django.conf.urls import patterns, include, url
-
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from storefront import views
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^storefront/',include('storefront.urls')),
-    #url(r'^$', 'smartShop.views.home', name='home'),
+    url(r'^$', 'storefront.views.home', name='home'),
     # url(r'^smartShop/', include('smartShop.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

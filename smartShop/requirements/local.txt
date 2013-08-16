@@ -1,2 +1,3 @@
 South
 bpython
+django-crispy-forms
