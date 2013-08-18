@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     # Examples:
 
     url(r'^$', views.index, name='index'),
-    url(r'^storefront/',include('storefront.urls')),
+    url(r'^storefront/',include('storefront.urls',namespace="storefront")),
     #url(r'^$', 'smartShop.views.home', name='home'),
     # url(r'^smartShop/', include('smartShop.foo.urls')),
 

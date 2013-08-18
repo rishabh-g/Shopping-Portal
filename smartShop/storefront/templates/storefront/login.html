@@ -1,0 +1,41 @@
+Register:
+
+<form method="post" action="{% url 'storefront:register' %}">
+		                {% csrf_token %}
+
+Store Details: <br>
+
+store_name : <input type="text" name="store_name"><br>
+store_address : <input type="text" name="store_address"><br>
+store_phone  : <input type="text" name="store_phone"><br>
+store_website : <input type="text" name="store_website"><br>
+store_email : <input type="text" name="store_email"><br>
+store_hours : <input type="text" name="store_hours"><br>
+
+
+Store Admin1 details: <br>
+
+admin_email : <input type="text" name="admin_email"><br>
+admin_password : <input type="password" name="admin_password"><br>
+
+
+<br>
+<input type="submit" value="Submit">
+
+
+</form>
+
+
+Sign In:
+
+<form method="post" action="{% url 'storefront:login' %}">
+		                {% csrf_token %}
+
+Email: <input type="text" name="email"><br>
+Password: <input type="password" name="password">
+
+<br>
+<input type="submit" value="Submit">
+
+</form>
+
