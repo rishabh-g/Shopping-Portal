@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from storefront import views
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -6,6 +7,8 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     # Examples:
+
+    url(r'^$', views.index, name='index'),
     url(r'^storefront/',include('storefront.urls')),
     #url(r'^$', 'smartShop.views.home', name='home'),
     # url(r'^smartShop/', include('smartShop.foo.urls')),
