@@ -15,7 +15,6 @@ def home(request):
         return render(request,'storefront/login.html')
 
 def login(request):
-    print str(request.POST)
     email = request.POST['email']
     password = request.POST['password']
     print type(email)
@@ -24,10 +23,10 @@ def login(request):
         return HttpResponse("Enter the Details")
     try:
          userDetails = StoreAdmin.objects.get(admin_email = email)
-         print str(userDetails)
+    print userDetails
     except StoreAdmin.DoesNotExist:
         return HttpResponse("User doesnot exist")
-    print str(userDetails)
+
     if userDetails.admin_password == password:
         request.session['uid'] = userDetails.id
         return HttpResponse("Login Successful")
