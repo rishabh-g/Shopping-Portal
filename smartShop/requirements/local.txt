@@ -1,3 +1,4 @@
 South
 bpython
 django-crispy-forms
+tastypie
