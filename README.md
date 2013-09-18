@@ -29,7 +29,7 @@ url/store/v1/album/?format=json&storeId=StoreID
 REST API for getting product details corresponding to a particular album
 </td>
 <td>
-url/store/v1/products/?format=json&albumId=StoreID
+url/store/v1/products/?format=json&albumId=albumID
 </td>
 </tr>
 
