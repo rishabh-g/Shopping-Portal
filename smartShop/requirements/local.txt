@@ -1,6 +1,6 @@
 South
 bpython
 django-crispy-forms
-django-tastypie
+django-tastypie==0.9.16
 python-mimeparse    #tastypie dependencies-
 python-dateutil     #tastypie dependencies

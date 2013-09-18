@@ -1,12 +1,12 @@
 from django.conf.urls import patterns, include, url
 from storefront import views
 from tastypie.api import Api
-from storefront.api import StoreResource 
+from storefront.api import StoreResource,AlbumResource 
 store_resource = StoreResource() 
 
 v1_api = Api(api_name='v1')
 v1_api.register(StoreResource())
-
+v1_api.register(AlbumResource())
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
