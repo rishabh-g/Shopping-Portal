@@ -38,3 +38,21 @@ url/store/v1/products/?format=json&albumId=albumID
 
 
 </table>
+
+Other URLs
+-------------------------------
+
+
+<table>
+<tr>
+<th>Name</th><th>URL</th>
+</tr>
+<tr>
+<td>
+Admin Interface
+</td>
+<td>
+url/admin
+</td>
+</tr>
+</table>
