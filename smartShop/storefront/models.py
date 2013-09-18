@@ -30,5 +30,5 @@ class ProductDetails(models.Model):
     product_image = models.CharField(max_length=255)
     product_price =  models.IntegerField(max_length=255)
     product_inStock = models.BooleanField()
-
+    product_album_name = models.ForeignKey(ProductAlbum)
 

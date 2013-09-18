@@ -1,5 +1,5 @@
 from tastypie.resources import ModelResource
-from storefront.models import Store,ProductAlbum
+from storefront.models import Store,ProductAlbum,ProductDetails
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 
@@ -44,6 +44,21 @@ class AlbumResource(ModelResource):
             print i.__dict__
         
 
+class ProductResource(ModelResource):
+    albumId = fields.ForeignKey(AlbumResource,'product_album_name')
+    class Meta:
+        queryset = ProductDetails.objects.all()
+        for i in queryset:
+            print i.__dict__
+        resource_name = 'products'
+        include_resource_uri = False
+        filtering = {
+            'albumId' : ALL,
+        }
+        print "here we go now"
+        for i in queryset:
+            print i.__dict__
+ 
 
         
         #def dispatch_list(self, request, **kwargs):

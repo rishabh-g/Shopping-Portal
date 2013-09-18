@@ -24,4 +24,17 @@ REST API for getting albums details corresponding to a particular Store
 url/store/v1/album/?format=json&storeId=StoreID
 </td>
 </tr>
+<tr>
+<td>
+REST API for getting product details corresponding to a particular album
+</td>
+<td>
+url/store/v1/products/?format=json&albumId=StoreID
+</td>
+</tr>
+
+
+
+
+
 </table>
