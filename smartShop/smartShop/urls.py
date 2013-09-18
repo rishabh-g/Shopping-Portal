@@ -1,5 +1,12 @@
 from django.conf.urls import patterns, include, url
 from storefront import views
+from tastypie.api import Api
+from storefront.api import StoreResource 
+store_resource = StoreResource() 
+
+v1_api = Api(api_name='v1')
+v1_api.register(StoreResource())
+
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -10,6 +17,7 @@ urlpatterns = patterns('',
 
     url(r'^$', views.index, name='index'),
     url(r'^storefront/',include('storefront.urls',namespace="storefront")),
+    url(r'^store/',include(v1_api.urls)),
     #url(r'^$', 'smartShop.views.home', name='home'),
     # url(r'^smartShop/', include('smartShop.foo.urls')),
 

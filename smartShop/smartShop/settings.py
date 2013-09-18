@@ -121,7 +121,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south', 
     'storefront',
-    'crispy_forms'   
+    'crispy_forms',
+    'tastypie'
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

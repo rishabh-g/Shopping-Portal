@@ -15,3 +15,20 @@ class StoreAdmin(models.Model):
         admin_password = models.CharField(max_length=255)
         admin_storeid = models.ForeignKey(Store)
 
+class ProductAlbum(models.Model):
+    album_name = models.CharField(max_length=255)
+    album_store_name = models.ForeignKey(Store)
+    album_product_number = models.IntegerField(max_length=255)
+    album_photograph = models.CharField(max_length=255)
+ 
+
+
+
+
+class ProductDetails(models.Model):
+    product_name = models.CharField(max_length=255)
+    product_image = models.CharField(max_length=255)
+    product_price =  models.IntegerField(max_length=255)
+    product_inStock = models.BooleanField()
+
+

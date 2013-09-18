@@ -1,4 +1,6 @@
 South
 bpython
 django-crispy-forms
-tastypie
+django-tastypie
+python-mimeparse    #tastypie dependencies-
+python-dateutil     #tastypie dependencies
