@@ -1,6 +1,6 @@
 Register:
 
-<form method="post" action="{% url 'storefront:register' %}">
+<form method="post" action="{% url storefront:register %}">
 		                {% csrf_token %}
 
 Store Details: <br>
@@ -28,7 +28,7 @@ admin_password : <input type="password" name="admin_password"><br>
 
 Sign In:
 
-<form method="post" action="{% url 'storefront:login' %}">
+<form method="post" action="{% url storefront:login %}">
 		                {% csrf_token %}
 
 Email: <input type="text" name="email"><br>
