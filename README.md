@@ -32,11 +32,6 @@ REST API for getting product details corresponding to a particular album
 url/store/v1/products/?format=json&albumId=albumID
 </td>
 </tr>
-
-
-
-
-
 </table>
 
 Other URLs
