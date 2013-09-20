@@ -13,7 +13,7 @@ Version V1 REST APIs
 REST API for getting Store details
 </td>
 <td>
-url/store/v1/store/?format=json&id=StoreID
+url/store/v1/store/StoreID?format=json
 </td>
 </tr>
 <tr>
@@ -26,10 +26,18 @@ url/store/v1/album/?format=json&storeId=StoreID
 </tr>
 <tr>
 <td>
-REST API for getting product details corresponding to a particular album
+REST API for getting all products in a particular album
 </td>
 <td>
 url/store/v1/products/?format=json&albumId=albumID
+</td>
+</tr>
+<tr>
+<td>
+REST API for getting product details for a particular product.
+</td>
+<td>
+url/store/v1/products/ProductID?format=json
 </td>
 </tr>
 </table>
