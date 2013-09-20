@@ -11,7 +11,7 @@ class Store(models.Model):
     store_hours = models.CharField(max_length=255)
 
     def __unicode__(self):
-        return store_name   
+        return self.store_name   
         
 class StoreAdmin(models.Model):
     admin_email = models.CharField(max_length=255)
@@ -19,7 +19,7 @@ class StoreAdmin(models.Model):
     admin_storeid = models.ForeignKey(Store)
 
     def __unicode__(self):
-        return admin_email;
+        return self.admin_email;
 
 class ProductAlbum(models.Model):
     album_name = models.CharField(max_length=255)
@@ -28,12 +28,12 @@ class ProductAlbum(models.Model):
     album_photograph = models.CharField(max_length=255)
 
     def __unicode__(self):
-        return album_name
+        return self.album_name
  
 class ProductDetails(models.Model):
-        STOCK_OPTIONS = (
+    STOCK_OPTIONS = (
         ('I','In Stock'),
-        ('O','Out of Stock')
+        ('O','Out of Stock'),
         ('S','Soon in Stock')
     )
     product_name = models.CharField(max_length=255)
@@ -43,4 +43,4 @@ class ProductDetails(models.Model):
     product_album_name = models.ForeignKey(ProductAlbum)
 
     def __unicode__(self):
-        return product_name
+        return self.product_name
