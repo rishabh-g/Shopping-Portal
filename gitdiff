@@ -1,3 +1,43 @@
+diff --git a/README.md b/README.md
+index 05b078a..b0f0464 100644
+--- a/README.md
++++ b/README.md
+@@ -13,7 +13,7 @@ Version V1 REST APIs
+ REST API for getting Store details
+ </td>
+ <td>
+-url/store/v1/store/StoreID?format=json
++url/api/v1/store/StoreID/?format=json
+ </td>
+ </tr>
+ <tr>
+@@ -21,7 +21,7 @@ url/store/v1/store/StoreID?format=json
+ REST API for getting albums details corresponding to a particular Store
+ </td>
+ <td>
+-url/store/v1/album/?format=json&storeId=StoreID
++url/api/v1/album/?format=json&storeId=StoreID
+ </td>
+ </tr>
+ <tr>
+@@ -29,7 +29,7 @@ url/store/v1/album/?format=json&storeId=StoreID
+ REST API for getting all products in a particular album
+ </td>
+ <td>
+-url/store/v1/products/?format=json&albumId=albumID
++url/api/v1/products/?format=json&albumId=albumID
+ </td>
+ </tr>
+ <tr>
+@@ -37,7 +37,7 @@ url/store/v1/products/?format=json&albumId=albumID
+ REST API for getting product details for a particular product.
+ </td>
+ <td>
+-url/store/v1/products/ProductID?format=json
++url/api/v1/products/ProductID/?format=json
+ </td>
+ </tr>
+ </table>
 diff --git a/gitdiff b/gitdiff
 index 59292bd..e69de29 100644
 --- a/gitdiff
@@ -142,7 +182,7 @@ index c0dd4b4..0bf9bbb 100644
      # url(r'^smartShop/', include('smartShop.foo.urls')),
  
 diff --git a/smartShop/smartshopdatabase.db b/smartShop/smartshopdatabase.db
-index 7d3340f..934e934 100644
+index 7d3340f..307ee9d 100644
 Binary files a/smartShop/smartshopdatabase.db and b/smartShop/smartshopdatabase.db differ
 diff --git a/smartShop/storefront/api.py b/smartShop/storefront/api.py
 index 1f1f7bb..75f82de 100644
@@ -320,10 +360,16 @@ diff --git a/smartShop/storefront/migrations/__init__.py b/smartShop/storefront/
 deleted file mode 100644
 index e69de29..0000000
 diff --git a/smartShop/storefront/models.py b/smartShop/storefront/models.py
-index d561134..e72467e 100644
+index d561134..8e61161 100644
 --- a/smartShop/storefront/models.py
 +++ b/smartShop/storefront/models.py
-@@ -7,8 +7,9 @@ class Store(models.Model):
+@@ -1,4 +1,5 @@
+ from django.db import models
++from django.forms import ModelForm
+ 
+ # Create your models here.
+ 
+@@ -7,8 +8,9 @@ class Store(models.Model):
      store_address = models.CharField(max_length=255)
      store_phone = models.CharField(max_length=255)
      store_website = models.CharField(max_length=255)
@@ -334,7 +380,7 @@ index d561134..e72467e 100644
  
      def __unicode__(self):
          return self.store_name   
-@@ -25,7 +26,7 @@ class ProductAlbum(models.Model):
+@@ -25,7 +27,7 @@ class ProductAlbum(models.Model):
      album_name = models.CharField(max_length=255)
      album_store_name = models.ForeignKey(Store)
      album_product_number = models.IntegerField(max_length=255)
@@ -343,7 +389,7 @@ index d561134..e72467e 100644
  
      def __unicode__(self):
          return self.album_name
-@@ -37,7 +38,7 @@ class ProductDetails(models.Model):
+@@ -37,10 +39,10 @@ class ProductDetails(models.Model):
          ('S','Soon in Stock')
      )
      product_name = models.CharField(max_length=255)
@@ -352,3 +398,172 @@ index d561134..e72467e 100644
      product_price =  models.IntegerField(max_length=255)
      product_inStock = models.CharField(max_length=2,choices=STOCK_OPTIONS)
      product_album_name = models.ForeignKey(ProductAlbum)
+ 
+     def __unicode__(self):
+-        return self.product_name
+\ No newline at end of file
++        return self.product_name
+diff --git a/smartShop/storefront/templates/storefront/login.html b/smartShop/storefront/templates/storefront/login.html
+index 4e799bc..0b3b582 100644
+--- a/smartShop/storefront/templates/storefront/login.html
++++ b/smartShop/storefront/templates/storefront/login.html
+@@ -1,31 +1,3 @@
+-Register:
+-
+-<form method="post" action="{% url storefront:register %}">
+-		                {% csrf_token %}
+-
+-Store Details: <br>
+-
+-store_name : <input type="text" name="store_name"><br>
+-store_address : <input type="text" name="store_address"><br>
+-store_phone  : <input type="text" name="store_phone"><br>
+-store_website : <input type="text" name="store_website"><br>
+-store_email : <input type="text" name="store_email"><br>
+-store_hours : <input type="text" name="store_hours"><br>
+-
+-
+-Store Admin1 details: <br>
+-
+-admin_email : <input type="text" name="admin_email"><br>
+-admin_password : <input type="password" name="admin_password"><br>
+-
+-
+-<br>
+-<input type="submit" value="Submit">
+-
+-
+-</form>
+-
+-
+ Sign In:
+ 
+ <form method="post" action="{% url storefront:login %}">
+diff --git a/smartShop/storefront/templates/storefront/register.html b/smartShop/storefront/templates/storefront/register.html
+new file mode 100644
+index 0000000..d5c7273
+--- /dev/null
++++ b/smartShop/storefront/templates/storefront/register.html
+@@ -0,0 +1,26 @@
++Register:
++
++<form method="post" action="{% url storefront:register %}">
++		                {% csrf_token %}
++
++Store Details: <br>
++
++store_name : <input type="text" name="store_name"><br>
++store_address : <input type="text" name="store_address"><br>
++store_phone  : <input type="text" name="store_phone"><br>
++store_website : <input type="text" name="store_website"><br>
++store_email : <input type="text" name="store_email"><br>
++store_hours : <input type="text" name="store_hours"><br>
++
++
++Store Admin1 details: <br>
++
++admin_email : <input type="text" name="admin_email"><br>
++admin_password : <input type="password" name="admin_password"><br>
++
++
++<br>
++<input type="submit" value="Submit">
++
++
++</form>
+diff --git a/smartShop/storefront/views.py b/smartShop/storefront/views.py
+index b000c2b..6118e79 100644
+--- a/smartShop/storefront/views.py
++++ b/smartShop/storefront/views.py
+@@ -3,55 +3,53 @@ from django.http import HttpResponse
+ from django.template import Context, loader
+ from django.http import Http404,HttpResponseRedirect, HttpResponse
+ from django.core.urlresolvers import reverse
+-from django.shortcuts import get_object_or_404,render
++from django.shortcuts import get_object_or_404,render,redirect
+ from storefront.models import Store,StoreAdmin 
+ 
+ 
+ def home(request):
+ #	return HttpResponse("U have been redirected to the home page - Hello World!")
+-    if 'email' in request.session:
+-        return render(request,'storefront/login.html')
+-    else:
+-        return render(request,'storefront/login.html')
++
++    return render(request,'storefront/login.html')
+ 
+ def login(request):
+-    print str(request.POST)
+-    email = request.POST['email']
+-    password = request.POST['password']
+-    print type(email)
+-    print "\n"
+-    if(not email  or not password ): 
++
++    if request.method=='POST':
++        email = request.POST['email']
++        password = request.POST['password']
++        if not email  or not password: 
++            return HttpResponse("Please enter the Details")
++        try:
++             userDetails = StoreAdmin.objects.get(admin_email = email)
++        except StoreAdmin.DoesNotExist:
++            return HttpResponse("User doesnot exist")
++        if userDetails.admin_password == password:
++            #request.session['uid'] = userDetails.id
++            return redirect('/api/v1/store/1/?format=json')
++
+         return HttpResponse("Enter the Details")
+-    try:
+-         userDetails = StoreAdmin.objects.get(admin_email = email)
+-         print str(userDetails)
+-    except StoreAdmin.DoesNotExist:
+-        return HttpResponse("User doesnot exist")
+-    print str(userDetails)
+-    if userDetails.admin_password == password:
+-        request.session['uid'] = userDetails.id
+-        return HttpResponse("Login Successful")
+-
+-    return HttpResponse("Enter the Details")
++    return render(request,'storefront/login.html')
++
+ 	
+ 
+ def register(request):
+-    store_name=request.POST['store_name']
+-    store_address=request.POST['store_address']
+-    store_phone=request.POST['store_phone']
+-    store_website=request.POST['store_website']
+-    store_email=request.POST['store_email']
+-    store_hours=request.POST['store_hours']
+-
+-    store=Store(store_name=store_name,store_address=store_address,store_phone=store_phone,store_website=store_website,store_email=store_email,store_hours=store_hours)
+-    store.save()
+-    admin_email=request.POST['admin_email']
+-    admin_password=request.POST['admin_password']
+-    admin_storeid=store
+-    storead=StoreAdmin(admin_email=admin_email,admin_password=admin_password,admin_storeid=admin_storeid)
+-    storead.save()
+-    request.session['email']=admin_email
+-    return home(request)
++    if request.method=='POST':        
++        store_name=request.POST['store_name']
++        store_address=request.POST['store_address']
++        store_phone=request.POST['store_phone']
++        store_website=request.POST['store_website']
++        store_email=request.POST['store_email']
++        store_hours=request.POST['store_hours']
++
++        store=Store(store_name=store_name,store_address=store_address,store_phone=store_phone,store_website=store_website,store_email=store_email,store_hours=store_hours)
++        store.save()
++        admin_email=request.POST['admin_email']
++        admin_password=request.POST['admin_password']
++        admin_storeid=store
++        storead=StoreAdmin(admin_email=admin_email,admin_password=admin_password,admin_storeid=admin_storeid)
++        storead.save()
++        request.session['email']=admin_email
++    return render(request,'storefront/register.html')
+ 	
+ 
+ def index(request):
