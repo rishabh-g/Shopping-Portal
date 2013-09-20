@@ -1,0 +1,58 @@
+diff --git a/smartShop/storefront/api.py b/smartShop/storefront/api.py
+index 6cc776d..1f1f7bb 100644
+--- a/smartShop/storefront/api.py
++++ b/smartShop/storefront/api.py
+@@ -3,13 +3,6 @@ from storefront.models import Store,ProductAlbum,ProductDetails
+ from tastypie.constants import ALL, ALL_WITH_RELATIONS
+ from tastypie import fields
+ 
+-
+-
+-
+-
+-
+-
+-
+ class StoreResource(ModelResource):
+     class Meta:
+         print "didnt get a variable"
+diff --git a/smartShop/storefront/models.py b/smartShop/storefront/models.py
+index daadabe..c4cfe02 100644
+--- a/smartShop/storefront/models.py
++++ b/smartShop/storefront/models.py
+@@ -8,18 +8,27 @@ class Store(models.Model):
+     store_phone = models.CharField(max_length=255)
+     store_website = models.CharField(max_length=255)
+     store_email = models.CharField(max_length=255)
+-    store_hours = models.CharField(max_length=255)   
++    store_hours = models.CharField(max_length=255)
++
++    def __unicode__(self):
++        return store_name   
+         
+ class StoreAdmin(models.Model):
+     admin_email = models.CharField(max_length=255)
+     admin_password = models.CharField(max_length=255)
+     admin_storeid = models.ForeignKey(Store)
+ 
++    def __unicode__(self):
++        return admin_email;
++
+ class ProductAlbum(models.Model):
+     album_name = models.CharField(max_length=255)
+     album_store_name = models.ForeignKey(Store)
+     album_product_number = models.IntegerField(max_length=255)
+     album_photograph = models.CharField(max_length=255)
++
++    def __unicode__(self):
++        return album_name
+  
+ class ProductDetails(models.Model):
+         STOCK_OPTIONS = (
+@@ -33,3 +42,5 @@ class ProductDetails(models.Model):
+     product_inStock = models.CharField(max_length=2,choices=STOCK_OPTIONS)
+     product_album_name = models.ForeignKey(ProductAlbum)
+ 
++    def __unicode__(self):
++        return product_name
+\ No newline at end of file

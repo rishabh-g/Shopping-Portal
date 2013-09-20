@@ -3,13 +3,6 @@ from storefront.models import Store,ProductAlbum,ProductDetails
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 
-
-
-
-
-
-
-
 class StoreResource(ModelResource):
     class Meta:
         print "didnt get a variable"
