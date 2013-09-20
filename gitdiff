@@ -1,112 +1,354 @@
 diff --git a/gitdiff b/gitdiff
-index 9e292f7..e69de29 100644
+index 59292bd..e69de29 100644
 --- a/gitdiff
 +++ b/gitdiff
-@@ -1,58 +0,0 @@
--diff --git a/smartShop/storefront/api.py b/smartShop/storefront/api.py
--index 6cc776d..1f1f7bb 100644
----- a/smartShop/storefront/api.py
--+++ b/smartShop/storefront/api.py
--@@ -3,13 +3,6 @@ from storefront.models import Store,ProductAlbum,ProductDetails
-- from tastypie.constants import ALL, ALL_WITH_RELATIONS
-- from tastypie import fields
-- 
---
---
---
---
---
---
---
-- class StoreResource(ModelResource):
--     class Meta:
--         print "didnt get a variable"
+@@ -1,112 +0,0 @@
+-diff --git a/gitdiff b/gitdiff
+-index 9e292f7..e69de29 100644
+---- a/gitdiff
+-+++ b/gitdiff
+-@@ -1,58 +0,0 @@
+--diff --git a/smartShop/storefront/api.py b/smartShop/storefront/api.py
+--index 6cc776d..1f1f7bb 100644
+----- a/smartShop/storefront/api.py
+--+++ b/smartShop/storefront/api.py
+--@@ -3,13 +3,6 @@ from storefront.models import Store,ProductAlbum,ProductDetails
+-- from tastypie.constants import ALL, ALL_WITH_RELATIONS
+-- from tastypie import fields
+-- 
+---
+---
+---
+---
+---
+---
+---
+-- class StoreResource(ModelResource):
+--     class Meta:
+--         print "didnt get a variable"
+--diff --git a/smartShop/storefront/models.py b/smartShop/storefront/models.py
+--index daadabe..c4cfe02 100644
+----- a/smartShop/storefront/models.py
+--+++ b/smartShop/storefront/models.py
+--@@ -8,18 +8,27 @@ class Store(models.Model):
+--     store_phone = models.CharField(max_length=255)
+--     store_website = models.CharField(max_length=255)
+--     store_email = models.CharField(max_length=255)
+---    store_hours = models.CharField(max_length=255)   
+--+    store_hours = models.CharField(max_length=255)
+--+
+--+    def __unicode__(self):
+--+        return store_name   
+--         
+-- class StoreAdmin(models.Model):
+--     admin_email = models.CharField(max_length=255)
+--     admin_password = models.CharField(max_length=255)
+--     admin_storeid = models.ForeignKey(Store)
+-- 
+--+    def __unicode__(self):
+--+        return admin_email;
+--+
+-- class ProductAlbum(models.Model):
+--     album_name = models.CharField(max_length=255)
+--     album_store_name = models.ForeignKey(Store)
+--     album_product_number = models.IntegerField(max_length=255)
+--     album_photograph = models.CharField(max_length=255)
+--+
+--+    def __unicode__(self):
+--+        return album_name
+--  
+-- class ProductDetails(models.Model):
+--         STOCK_OPTIONS = (
+--@@ -33,3 +42,5 @@ class ProductDetails(models.Model):
+--     product_inStock = models.CharField(max_length=2,choices=STOCK_OPTIONS)
+--     product_album_name = models.ForeignKey(ProductAlbum)
+-- 
+--+    def __unicode__(self):
+--+        return product_name
+--\ No newline at end of file
+-diff --git a/smartShop/smartshopdatabase.db b/smartShop/smartshopdatabase.db
+-index e80979a..7d3340f 100644
+-Binary files a/smartShop/smartshopdatabase.db and b/smartShop/smartshopdatabase.db differ
 -diff --git a/smartShop/storefront/models.py b/smartShop/storefront/models.py
--index daadabe..c4cfe02 100644
+-index c4cfe02..d561134 100644
 ---- a/smartShop/storefront/models.py
 -+++ b/smartShop/storefront/models.py
--@@ -8,18 +8,27 @@ class Store(models.Model):
--     store_phone = models.CharField(max_length=255)
--     store_website = models.CharField(max_length=255)
--     store_email = models.CharField(max_length=255)
---    store_hours = models.CharField(max_length=255)   
--+    store_hours = models.CharField(max_length=255)
--+
--+    def __unicode__(self):
--+        return store_name   
+-@@ -11,7 +11,7 @@ class Store(models.Model):
+-     store_hours = models.CharField(max_length=255)
+- 
+-     def __unicode__(self):
+--        return store_name   
+-+        return self.store_name   
 -         
 - class StoreAdmin(models.Model):
 -     admin_email = models.CharField(max_length=255)
--     admin_password = models.CharField(max_length=255)
+-@@ -19,7 +19,7 @@ class StoreAdmin(models.Model):
 -     admin_storeid = models.ForeignKey(Store)
 - 
--+    def __unicode__(self):
--+        return admin_email;
--+
+-     def __unicode__(self):
+--        return admin_email;
+-+        return self.admin_email;
+- 
 - class ProductAlbum(models.Model):
 -     album_name = models.CharField(max_length=255)
--     album_store_name = models.ForeignKey(Store)
--     album_product_number = models.IntegerField(max_length=255)
+-@@ -28,12 +28,12 @@ class ProductAlbum(models.Model):
 -     album_photograph = models.CharField(max_length=255)
--+
--+    def __unicode__(self):
--+        return album_name
+- 
+-     def __unicode__(self):
+--        return album_name
+-+        return self.album_name
 -  
 - class ProductDetails(models.Model):
--         STOCK_OPTIONS = (
--@@ -33,3 +42,5 @@ class ProductDetails(models.Model):
--     product_inStock = models.CharField(max_length=2,choices=STOCK_OPTIONS)
+--        STOCK_OPTIONS = (
+-+    STOCK_OPTIONS = (
+-         ('I','In Stock'),
+--        ('O','Out of Stock')
+-+        ('O','Out of Stock'),
+-         ('S','Soon in Stock')
+-     )
+-     product_name = models.CharField(max_length=255)
+-@@ -43,4 +43,4 @@ class ProductDetails(models.Model):
 -     product_album_name = models.ForeignKey(ProductAlbum)
 - 
--+    def __unicode__(self):
--+        return product_name
+-     def __unicode__(self):
+--        return product_name
 -\ No newline at end of file
+-+        return self.product_name
+-\ No newline at end of file
+diff --git a/smartShop/smartShop/settings.py b/smartShop/smartShop/settings.py
+index 13bb4e1..d77ed98 100644
+--- a/smartShop/smartShop/settings.py
++++ b/smartShop/smartShop/settings.py
+@@ -49,7 +49,7 @@ USE_TZ = True
+ 
+ # Absolute filesystem path to the directory that will hold user-uploaded files.
+ # Example: "/home/media/media.lawrence.com/media/"
+-MEDIA_ROOT = ''
++MEDIA_ROOT = '/media/'
+ 
+ # URL that handles the media served from MEDIA_ROOT. Make sure to use a
+ # trailing slash.
+diff --git a/smartShop/smartShop/urls.py b/smartShop/smartShop/urls.py
+index c0dd4b4..0bf9bbb 100644
+--- a/smartShop/smartShop/urls.py
++++ b/smartShop/smartShop/urls.py
+@@ -19,7 +19,7 @@ urlpatterns = patterns('',
+ 
+     url(r'^$', views.index, name='index'),
+     url(r'^storefront/',include('storefront.urls',namespace="storefront")),
+-    url(r'^store/',include(v1_api.urls)),
++    url(r'^api/',include(v1_api.urls)),
+     #url(r'^$', 'smartShop.views.home', name='home'),
+     # url(r'^smartShop/', include('smartShop.foo.urls')),
+ 
 diff --git a/smartShop/smartshopdatabase.db b/smartShop/smartshopdatabase.db
-index e80979a..7d3340f 100644
+index 7d3340f..934e934 100644
 Binary files a/smartShop/smartshopdatabase.db and b/smartShop/smartshopdatabase.db differ
+diff --git a/smartShop/storefront/api.py b/smartShop/storefront/api.py
+index 1f1f7bb..75f82de 100644
+--- a/smartShop/storefront/api.py
++++ b/smartShop/storefront/api.py
+@@ -5,17 +5,14 @@ from tastypie import fields
+ 
+ class StoreResource(ModelResource):
+     class Meta:
+-        print "didnt get a variable"
+     
+         queryset =Store.objects.all()
+         for i in queryset:
+             print i.__dict__
+     
+-        #excludes = ['id','meta']
+         resource_name = 'store'
+         include_resource_uri = False
+         filtering = {
+-            #"id": ALL,
+             "id":('exact',),
+         }
+ 
+@@ -25,35 +22,25 @@ class AlbumResource(ModelResource):
+     storeId = fields.ForeignKey(StoreResource,'album_store_name')
+     class Meta:
+         queryset = ProductAlbum.objects.all()
+-        for i in queryset:
+-            print i.__dict__
+         resource_name = 'album'
+         include_resource_uri = False
+         filtering = {
+             'storeId' : ALL,
+         }
+-        print "here we go now"
+-        for i in queryset:
+-            print i.__dict__
+         
+ 
+ class ProductResource(ModelResource):
+     albumId = fields.ForeignKey(AlbumResource,'product_album_name')
+     class Meta:
+         queryset = ProductDetails.objects.all()
+-        for i in queryset:
+-            print i.__dict__
+         resource_name = 'products'
+         include_resource_uri = False
+         filtering = {
+             'albumId' : ALL,
+         }
+-        print "here we go now"
+-        for i in queryset:
+-            print i.__dict__
+- 
+ 
+-        
++
++
+         #def dispatch_list(self, request, **kwargs):
+         #    print "got here"
+         #    body_filters = parse_xml_get_data(request)
+diff --git a/smartShop/storefront/migrations/0001_initial.py b/smartShop/storefront/migrations/0001_initial.py
+deleted file mode 100644
+index c5293f7..0000000
+--- a/smartShop/storefront/migrations/0001_initial.py
++++ /dev/null
+@@ -1,105 +0,0 @@
+-# -*- coding: utf-8 -*-
+-import datetime
+-from south.db import db
+-from south.v2 import SchemaMigration
+-from django.db import models
+-
+-
+-class Migration(SchemaMigration):
+-
+-    def forwards(self, orm):
+-        # Adding model 'Store'
+-        db.create_table(u'storefront_store', (
+-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+-            ('store_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-            ('store_address', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-            ('store_phone', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-            ('store_website', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-            ('store_email', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-            ('store_hours', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-        ))
+-        db.send_create_signal(u'storefront', ['Store'])
+-
+-        # Adding model 'StoreAdmin'
+-        db.create_table(u'storefront_storeadmin', (
+-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+-            ('admin_email', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-            ('admin_password', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-            ('admin_storeid', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['storefront.Store'])),
+-        ))
+-        db.send_create_signal(u'storefront', ['StoreAdmin'])
+-
+-        # Adding model 'ProductAlbum'
+-        db.create_table(u'storefront_productalbum', (
+-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+-            ('album_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-            ('album_store_name', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['storefront.Store'])),
+-            ('album_product_number', self.gf('django.db.models.fields.IntegerField')(max_length=255)),
+-            ('album_photograph', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-        ))
+-        db.send_create_signal(u'storefront', ['ProductAlbum'])
+-
+-        # Adding model 'ProductDetails'
+-        db.create_table(u'storefront_productdetails', (
+-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+-            ('product_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-            ('product_image', self.gf('django.db.models.fields.CharField')(max_length=255)),
+-            ('product_price', self.gf('django.db.models.fields.IntegerField')(max_length=255)),
+-            ('product_inStock', self.gf('django.db.models.fields.BooleanField')(default=False)),
+-            ('product_album_name', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['storefront.ProductAlbum'])),
+-        ))
+-        db.send_create_signal(u'storefront', ['ProductDetails'])
+-
+-
+-    def backwards(self, orm):
+-        # Deleting model 'Store'
+-        db.delete_table(u'storefront_store')
+-
+-        # Deleting model 'StoreAdmin'
+-        db.delete_table(u'storefront_storeadmin')
+-
+-        # Deleting model 'ProductAlbum'
+-        db.delete_table(u'storefront_productalbum')
+-
+-        # Deleting model 'ProductDetails'
+-        db.delete_table(u'storefront_productdetails')
+-
+-
+-    models = {
+-        u'storefront.productalbum': {
+-            'Meta': {'object_name': 'ProductAlbum'},
+-            'album_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+-            'album_photograph': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+-            'album_product_number': ('django.db.models.fields.IntegerField', [], {'max_length': '255'}),
+-            'album_store_name': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['storefront.Store']"}),
+-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+-        },
+-        u'storefront.productdetails': {
+-            'Meta': {'object_name': 'ProductDetails'},
+-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+-            'product_album_name': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['storefront.ProductAlbum']"}),
+-            'product_image': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+-            'product_inStock': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+-            'product_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+-            'product_price': ('django.db.models.fields.IntegerField', [], {'max_length': '255'})
+-        },
+-        u'storefront.store': {
+-            'Meta': {'object_name': 'Store'},
+-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+-            'store_address': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+-            'store_email': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+-            'store_hours': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+-            'store_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+-            'store_phone': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+-            'store_website': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+-        },
+-        u'storefront.storeadmin': {
+-            'Meta': {'object_name': 'StoreAdmin'},
+-            'admin_email': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+-            'admin_password': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+-            'admin_storeid': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['storefront.Store']"}),
+-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+-        }
+-    }
+-
+-    complete_apps = ['storefront']
+\ No newline at end of file
+diff --git a/smartShop/storefront/migrations/__init__.py b/smartShop/storefront/migrations/__init__.py
+deleted file mode 100644
+index e69de29..0000000
 diff --git a/smartShop/storefront/models.py b/smartShop/storefront/models.py
-index c4cfe02..d561134 100644
+index d561134..e72467e 100644
 --- a/smartShop/storefront/models.py
 +++ b/smartShop/storefront/models.py
-@@ -11,7 +11,7 @@ class Store(models.Model):
+@@ -7,8 +7,9 @@ class Store(models.Model):
+     store_address = models.CharField(max_length=255)
+     store_phone = models.CharField(max_length=255)
+     store_website = models.CharField(max_length=255)
+-    store_email = models.CharField(max_length=255)
++    store_email = models.EmailField(max_length=100)
      store_hours = models.CharField(max_length=255)
++    store_coverpic = models.FileField(upload_to='store/cover/',null=True,blank=True)
  
      def __unicode__(self):
--        return store_name   
-+        return self.store_name   
-         
- class StoreAdmin(models.Model):
-     admin_email = models.CharField(max_length=255)
-@@ -19,7 +19,7 @@ class StoreAdmin(models.Model):
-     admin_storeid = models.ForeignKey(Store)
- 
-     def __unicode__(self):
--        return admin_email;
-+        return self.admin_email;
- 
- class ProductAlbum(models.Model):
+         return self.store_name   
+@@ -25,7 +26,7 @@ class ProductAlbum(models.Model):
      album_name = models.CharField(max_length=255)
-@@ -28,12 +28,12 @@ class ProductAlbum(models.Model):
-     album_photograph = models.CharField(max_length=255)
+     album_store_name = models.ForeignKey(Store)
+     album_product_number = models.IntegerField(max_length=255)
+-    album_photograph = models.CharField(max_length=255)
++    album_cover = models.FileField(upload_to='album/cover/',null=True,blank=True)
  
      def __unicode__(self):
--        return album_name
-+        return self.album_name
-  
- class ProductDetails(models.Model):
--        STOCK_OPTIONS = (
-+    STOCK_OPTIONS = (
-         ('I','In Stock'),
--        ('O','Out of Stock')
-+        ('O','Out of Stock'),
+         return self.album_name
+@@ -37,7 +38,7 @@ class ProductDetails(models.Model):
          ('S','Soon in Stock')
      )
      product_name = models.CharField(max_length=255)
-@@ -43,4 +43,4 @@ class ProductDetails(models.Model):
+-    product_image = models.CharField(max_length=255)
++    product_image = models.FileField(upload_to='product/main/',null=True,blank=True)
+     product_price =  models.IntegerField(max_length=255)
+     product_inStock = models.CharField(max_length=2,choices=STOCK_OPTIONS)
      product_album_name = models.ForeignKey(ProductAlbum)
- 
-     def __unicode__(self):
--        return product_name
-\ No newline at end of file
-+        return self.product_name
-\ No newline at end of file

@@ -19,7 +19,7 @@ urlpatterns = patterns('',
 
     url(r'^$', views.index, name='index'),
     url(r'^storefront/',include('storefront.urls',namespace="storefront")),
-    url(r'^store/',include(v1_api.urls)),
+    url(r'^api/',include(v1_api.urls)),
     #url(r'^$', 'smartShop.views.home', name='home'),
     # url(r'^smartShop/', include('smartShop.foo.urls')),
 
