@@ -22,9 +22,14 @@ class ProductAlbum(models.Model):
     album_photograph = models.CharField(max_length=255)
  
 class ProductDetails(models.Model):
+        STOCK_OPTIONS = (
+        ('I','In Stock'),
+        ('O','Out of Stock')
+        ('S','Soon in Stock')
+    )
     product_name = models.CharField(max_length=255)
     product_image = models.CharField(max_length=255)
     product_price =  models.IntegerField(max_length=255)
-    product_inStock = models.BooleanField()
+    product_inStock = models.CharField(max_length=2,choices=STOCK_OPTIONS)
     product_album_name = models.ForeignKey(ProductAlbum)
 
