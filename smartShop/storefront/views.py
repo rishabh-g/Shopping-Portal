@@ -3,12 +3,26 @@ from django.http import HttpResponse
 from django.template import Context, loader
 from django.http import Http404,HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-from django.shortcuts import get_object_or_404,render,redirect
+from django.shortcuts import get_object_or_404,render,redirect,render_to_response
 from storefront.models import Store,StoreAdmin 
+from storefront.api import StoreResource
+
 
 
 def home(request):
 #	return HttpResponse("U have been redirected to the home page - Hello World!")
+    res = StoreResource()
+    request_bundle = res.build_bundle(request=request)
+    queryset = res.obj_get_list(request_bundle)
+
+    bundles = []
+    for obj in queryset:
+        bundle = res.build_bundle(obj=obj, request=request)
+        bundles.append(res.full_dehydrate(bundle, for_list=True))
+
+    list_json = res.serialize(None, bundles, "application/json")
+
+    return HttpResponse(list_json)
 
     return render(request,'storefront/login.html')
 
