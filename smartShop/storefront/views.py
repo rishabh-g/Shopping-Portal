@@ -6,26 +6,30 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404,render,redirect,render_to_response
 from storefront.models import Store,StoreAdmin 
 from storefront.api import StoreResource
+from django.views.decorators.csrf import csrf_exempt
 
-
-
+@csrf_exempt
 def home(request):
+    print "reaching here here \n"
 #	return HttpResponse("U have been redirected to the home page - Hello World!")
     res = StoreResource()
+    print res
     request_bundle = res.build_bundle(request=request)
+    #print request
     queryset = res.obj_get_list(request_bundle)
-
+    print queryset
     bundles = []
     for obj in queryset:
         bundle = res.build_bundle(obj=obj, request=request)
         bundles.append(res.full_dehydrate(bundle, for_list=True))
-
+    print 
     list_json = res.serialize(None, bundles, "application/json")
-
+    return "yeaha " 
     return HttpResponse(list_json)
 
     return render(request,'storefront/login.html')
 
+@csrf_exempt
 def login(request):
 
     if request.method=='POST':
@@ -38,14 +42,22 @@ def login(request):
         except StoreAdmin.DoesNotExist:
             return HttpResponse("User doesnot exist")
         if userDetails.admin_password == password:
-            #request.session['uid'] = userDetails.id
-            return redirect('/api/v1/store/1/?format=json')
-
-        return HttpResponse("Enter the Details")
+            store_id = userDetails.admin_storeid.id
+            res = StoreResource()
+            request_bundle = res.build_bundle(request=request)
+            queryset = res.obj_get_list(request_bundle)
+            bundles = []
+            for obj in queryset:
+                if(obj.id == store_id):
+                    bundle = res.build_bundle(obj=obj, request=request)
+                    bundles.append(res.full_dehydrate(bundle, for_list=True))
+                #bundles.append(res.dehydrate_id(bundle, for_list=True))
+            list_json = res.serialize(None, bundles, "application/json")
+            return HttpResponse(list_json)
     return render(request,'storefront/login.html')
 
 	
-
+@csrf_exempt
 def register(request):
     if request.method=='POST':        
         store_name=request.POST['store_name']
@@ -65,6 +77,6 @@ def register(request):
         request.session['email']=admin_email
     return render(request,'storefront/register.html')
 	
-
+@csrf_exempt
 def index(request):
     return home(request)
