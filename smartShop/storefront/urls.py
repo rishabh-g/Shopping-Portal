@@ -7,6 +7,8 @@ urlpatterns = patterns('',
     url(r'^$', 'storefront.views.home', name='home'),
     url(r'login$', 'storefront.views.login', name='login'),
     url(r'register$', 'storefront.views.register', name='register'),
+    url(r'product_details$', 'storefront.views.product_details', name='product_details'),
+   
     # url(r'^smartShop/', include('smartShop.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

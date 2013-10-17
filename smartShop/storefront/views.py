@@ -5,7 +5,7 @@ from django.http import Http404,HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404,render,redirect,render_to_response
 from storefront.models import Store,StoreAdmin 
-from storefront.api import StoreResource,AlbumResource
+from storefront.api import StoreResource,AlbumResource,ProductResource
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
@@ -26,6 +26,38 @@ def home(request):
         return HttpResponse(list_json)
 
     return render(request,'storefront/login.html')
+
+
+@csrf_exempt
+def product_details(request):
+#	return HttpResponse("U have been redirected to the home page - Hello World!")
+    if request.method == 'POST':
+        album_id = int(request.POST['album_id'])
+        res = ProductResource()
+        request_bundle = res.build_bundle(request=request)
+        queryset = res.obj_get_list(request_bundle)
+        bundles = []
+        #request.POST['store_id']
+        for obj in queryset:
+            if(obj.product_album_name.id == album_id):
+                bundle = res.build_bundle(obj=obj, request=request)
+                bundles.append(res.full_dehydrate(bundle, for_list=True))
+        list_json = res.serialize(None, bundles, "application/json")
+        return HttpResponse(list_json)
+
+    return render(request,'storefront/login.html')
+
+
+
+
+
+
+
+
+
+
+
+
 
 @csrf_exempt
 def login(request):
