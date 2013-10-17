@@ -5,27 +5,25 @@ from django.http import Http404,HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404,render,redirect,render_to_response
 from storefront.models import Store,StoreAdmin 
-from storefront.api import StoreResource
+from storefront.api import StoreResource,AlbumResource
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def home(request):
-    print "reaching here here \n"
 #	return HttpResponse("U have been redirected to the home page - Hello World!")
-    res = StoreResource()
-    print res
-    request_bundle = res.build_bundle(request=request)
-    #print request
-    queryset = res.obj_get_list(request_bundle)
-    print queryset
-    bundles = []
-    for obj in queryset:
-        bundle = res.build_bundle(obj=obj, request=request)
-        bundles.append(res.full_dehydrate(bundle, for_list=True))
-    print 
-    list_json = res.serialize(None, bundles, "application/json")
-    return "yeaha " 
-    return HttpResponse(list_json)
+    if request.method == 'POST':
+        store_id = int(request.POST['store_id'])
+        res = AlbumResource()
+        request_bundle = res.build_bundle(request=request)
+        queryset = res.obj_get_list(request_bundle)
+        bundles = []
+        #request.POST['store_id']
+        for obj in queryset:
+            if(obj.album_store_name.id == store_id):
+                bundle = res.build_bundle(obj=obj, request=request)
+                bundles.append(res.full_dehydrate(bundle, for_list=True))
+        list_json = res.serialize(None, bundles, "application/json")
+        return HttpResponse(list_json)
 
     return render(request,'storefront/login.html')
 
