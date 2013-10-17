@@ -74,7 +74,18 @@ def register(request):
         admin_storeid=store
         storead=StoreAdmin(admin_email=admin_email,admin_password=admin_password,admin_storeid=admin_storeid)
         storead.save()
-        request.session['email']=admin_email
+        request.session['id'] = storead.admin_storeid.id
+        res = StoreResource()
+        request_bundle = res.build_bundle(request=request)
+        queryset = res.obj_get_list(request_bundle)
+        bundles = []
+        for obj in queryset:
+            if(obj.id == storead.admin_storeid.id):
+                bundle = res.build_bundle(obj=obj, request=request)
+                bundles.append(res.full_dehydrate(bundle, for_list=True))
+                #bundles.append(res.dehydrate_id(bundle, for_list=True))
+        list_json = res.serialize(None, bundles, "application/json")
+        return HttpResponse(list_json)
     return render(request,'storefront/register.html')
 	
 @csrf_exempt
