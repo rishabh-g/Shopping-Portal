@@ -7,6 +7,9 @@ from django.shortcuts import get_object_or_404,render,redirect,render_to_respons
 from storefront.models import Store,StoreAdmin 
 from storefront.api import StoreResource,AlbumResource,ProductResource
 from django.views.decorators.csrf import csrf_exempt
+import base64
+from django.core.files.base import ContentFile
+from django.core.files import File
 
 @csrf_exempt
 def home(request):
@@ -46,16 +49,6 @@ def product_details(request):
         return HttpResponse(list_json)
 
     return render(request,'storefront/login.html')
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -118,6 +111,28 @@ def register(request):
         return HttpResponse(list_json)
     return render(request,'storefront/register.html')
 	
+
+@csrf_exempt
+def imagehandler(request):
+    if request.method == 'POST':
+        string = request.POST['idata']
+#        iconvert = base64.b64decode(idata)
+        s=''
+        for i in range(0,len(string)):
+            if string[i]==' ':
+                s+='+'
+            else:
+                s+=string[i]
+        convert = base64.b64decode(s)
+        t = open("sample.png", "w+")
+        t.write(convert)
+        t.close()
+
+#        f = open('/tmp/sample', 'w')
+#        f.write(idata)
+#        f.close
+    return HttpResponse("Success");
+
 @csrf_exempt
 def index(request):
     return home(request)
