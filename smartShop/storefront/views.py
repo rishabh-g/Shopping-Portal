@@ -4,12 +4,13 @@ from django.template import Context, loader
 from django.http import Http404,HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404,render,redirect,render_to_response
-from storefront.models import Store,StoreAdmin 
+from storefront.models import Store,StoreAdmin,ProductAlbum
 from storefront.api import StoreResource,AlbumResource,ProductResource
 from django.views.decorators.csrf import csrf_exempt
 import base64
 from django.core.files.base import ContentFile
 from django.core.files import File
+import random
 
 @csrf_exempt
 def home(request):
@@ -90,7 +91,7 @@ def register(request):
         store_email=request.POST['store_email']
         store_hours=request.POST['store_hours']
 
-        store=Store(store_name=store_name,store_address=store_address,store_phone=store_phone,store_website=store_website,store_email=store_email,store_hours=store_hours)
+        store=Store(store_name=store_name,store_address=store_address,store_phone=store_phone,store_website=store_website,store_email=store_email,store_hours=store_hours,store_coverpic=store_name+str(random.randint(0,100000)))
         store.save()
         admin_email=request.POST['admin_email']
         admin_password=request.POST['admin_password']
@@ -115,18 +116,41 @@ def register(request):
 @csrf_exempt
 def imagehandler(request):
     if request.method == 'POST':
-        string = request.POST['idata']
+        if 'store_id' in request.POST:
+            store=Store.objects.get(id=request.POST['store_id'])
+       # print store.store_coverpic
+            string = request.POST['idata']
 #        iconvert = base64.b64decode(idata)
-        s=''
-        for i in range(0,len(string)):
-            if string[i]==' ':
-                s+='+'
-            else:
-                s+=string[i]
-        convert = base64.b64decode(s)
-        t = open("sample.png", "w+")
-        t.write(convert)
-        t.close()
+            s=''
+            for i in range(0,len(string)):
+                if string[i]==' ':
+                    s+='+'
+                else:
+                    s+=string[i]
+            store.store_coverpic=str(store.store_name+str(random.randint(1,10000)))+str(request.POST['type'])
+            store.save()
+            convert = base64.b64decode(s)
+            t = open('storefront/static/storefront/Images/'+str(store.store_coverpic), "w+")
+            t.write(convert)
+            t.close()
+        
+        elif 'product_id' in request.POST:
+            product=ProductAlbum.objects.get(id=request.POST['product_id'])
+       # print store.store_coverpic
+            string = request.POST['idata']
+#        iconvert = base64.b64decode(idata)
+            s=''
+            for i in range(0,len(string)):
+                if string[i]==' ':
+                    s+='+'
+                else:
+                    s+=string[i]
+            product.album_cover=str(product.album_name)+str(random.randint(10001,100000))+str(request.POST['type'])
+            product.save()
+            convert = base64.b64decode(s)
+            t = open('storefront/static/storefront/Images/'+str(product.album_cover), "w+")
+            t.write(convert)
+            t.close()
 
 #        f = open('/tmp/sample', 'w')
 #        f.write(idata)
