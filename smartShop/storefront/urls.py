@@ -9,6 +9,8 @@ urlpatterns = patterns('',
     url(r'register$', 'storefront.views.register', name='register'),
     url(r'product_details$', 'storefront.views.product_details', name='product_details'),
     url(r'imagehandler$', 'storefront.views.imagehandler', name='imagehandler'),
+    url(r'individual_details$', 'storefront.views.individual_details', name='individual_details'),
+
 
     # url(r'^smartShop/', include('smartShop.foo.urls')),
 

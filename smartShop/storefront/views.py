@@ -4,12 +4,13 @@ from django.template import Context, loader
 from django.http import Http404,HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404,render,redirect,render_to_response
-from storefront.models import Store,StoreAdmin,ProductAlbum
+from storefront.models import Store, StoreAdmin, ProductAlbum, ProductDetails
 from storefront.api import StoreResource,AlbumResource,ProductResource
 from django.views.decorators.csrf import csrf_exempt
 import base64
 from django.core.files.base import ContentFile
 from django.core.files import File
+from django.core import serializers
 import random
 
 @csrf_exempt
@@ -49,6 +50,17 @@ def product_details(request):
         list_json = res.serialize(None, bundles, "application/json")
         return HttpResponse(list_json)
 
+    return render(request,'storefront/login.html')
+
+
+@csrf_exempt
+def individual_details(request):
+#	return HttpResponse("U have been redirected to the home page - Hello World!")
+    if request.method == 'POST':
+        product_id = int(request.POST['product_id'])
+        product_description = ProductDetails.objects.filter(id=product_id)
+        data = serializers.serialize('json', product_description)
+        return HttpResponse(data)
     return render(request,'storefront/login.html')
 
 
